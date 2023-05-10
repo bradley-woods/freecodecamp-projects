@@ -1,0 +1,158 @@
+html {
+    box-sizing: border-box;
+}
+  
+body {
+font-family: 'Lucida Grande', Arial, sans-serif;
+font-size: 10px;
+color: #000;
+line-height: 1.5;
+background-color: #fff;
+min-width: 220px;
+}
+
+/* nav */
+#navbar {
+position: fixed;
+min-width: 220px;
+top: 0px;
+left: 0px;
+width: 250px;
+height: 100%;
+border-right: 10px solid #ccc;
+background-color: #eee;
+border-radius: 5px;
+}
+
+#navbar header {
+font-size: 1.6rem;
+margin: 10px;
+}
+
+#navbar p {
+margin: 0 20px;
+}
+
+#navbar ul {
+margin: 0;
+}
+
+.nav-link:hover {
+text-decoration: underline;
+color: #0090c0;
+}
+
+.nav-link {
+font-size: 1rem;
+text-decoration: none;
+color: black;
+}
+
+/* main */
+#main-doc {
+position: absolute;
+margin-left: 250px;
+max-width: 900px; 
+padding: 0 20px;
+margin-bottom: 110px;
+}
+
+#title {
+font-size: 2rem !important;
+margin: 0 10px !important;
+}
+
+dl {
+    display: grid;
+    grid-template-columns: fit-content(30%) auto;
+    margin-bottom: 15px;
+}
+
+dt {
+    background-color: #ede;
+    margin: 0;
+    padding: 0 5px;
+}
+
+dd > p {
+margin: 0;
+}
+
+dd {
+margin: 0 5px;
+}
+
+#main-doc header {
+color: #000;
+margin: 10px;
+text-align: center;
+font-size: 1.6rem;
+font-weight: normal;
+}
+
+#main-doc header {
+text-align: left;
+margin: 10px;
+}
+
+section article {
+margin: 10px;
+font-size: 1rem;
+}
+
+.grey-box {
+padding: 10px;
+background-color: #eee;
+border: solid 1px #ccc;
+border-radius: 5px;
+}
+
+.green-box {
+padding: 2px 10px;
+background-color: #eeffcc;
+border: solid 1px #ccddaa;
+border-radius: 5px;
+}
+
+.green-box code {
+background-color: #eeffcc;
+}
+
+code {
+background-color: #eee;
+}
+
+code .red-code {
+color: red;
+}
+
+code .green-code {
+color: green;
+}
+
+code .blue-code {
+color: blue;
+}
+
+/* media queries */
+@media only screen and (max-width: 815px) {
+    /* For mobile phones: */
+    #navbar {
+        position: absolute;
+        top: 0;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-height: 210px;
+        border: none;
+        z-index: 1;
+        border-bottom: 10px solid #ccc;
+    }
+
+    #main-doc {
+        position: absolute;
+        margin-left: 0px;
+        margin-top: 220px;
+        
+    }
+}

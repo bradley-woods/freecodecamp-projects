@@ -1,0 +1,120 @@
+<!-- My attempt to recreate the Python 'What's New In Python 3.12' documentation, for all references go to docs.python.org. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Technical Documentation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header>Table of Contents</header>
+      <p><a class="nav-link" href="#What's_New_In_Python_3.12">What's New In Python 3.12</a></p>
+      <ul>
+        <li><a class="nav-link" href="#Summary_-_Release_highlights">Summary - Release highlights</a></li>
+        <li><a class="nav-link" href="#Improved_Error_Messages">Improved Error Messages</a></li>
+        <li><a class="nav-link" href="#New_Features">New Features</a></li>
+        <li><a class="nav-link" href="#Other_Language_Changes">Other Language Changes</a></li>
+        <li><a class="nav-link" href="#New_Modules">New Modules</a></li>
+      </ul>
+    </nav>
+    <main id="main-doc">
+      <!-- What's_New_In_Python_3.12 -->
+      <section id="What's_New_In_Python_3.12" class="main-section">
+        <header id="title">What's New In Python 3.12</header>
+        <article>
+          <dl>
+            <dt><strong>Release:</strong></dt>
+            <dd><p>3.12.0a5</p></dd>
+            <dt><strong>Date:</strong></dt>
+            <dd><p>February 27, 2023</p></dd>
+          </dl>
+          <p>This article explains the new features in Python 3.12, compared to 3.11.</p>
+          <p>For full details, see the <a href="https://docs.python.org/3.12/whatsnew/changelog.html#changelog">changelog</a>.</p>
+          <p class="grey-box"><strong>Note: </strong>&nbsp Prerelease users should be aware that this document is currently in draft form. It will be updated substantially as Python 3.12 moves towards release, so it’s worth checking back even after reading earlier versions.</p>
+        </article>
+      </section>
+      <!-- Summary - Release highlights -->
+      <section id="Summary_-_Release_highlights" class="main-section">
+        <header>Summary - Release highlights</header>
+        <article>
+          <p>Important deprecations, removals or restrictions:</p>
+          <ul>
+            <li><strong>PEP 623</strong>, Remove wstr from Unicode.</li>
+            <li><strong>PEP 632</strong>, Remove the <code>distutils</code> package.</li>
+          </ul>
+        </article>
+      </section>
+      <!-- Improved Error Messages -->
+      <section id="Improved_Error_Messages" class="main-section">
+        <header>Improved Error Messages</header>
+        <article>
+          <ul>
+            <li>Modules from the standard library are now potentially suggested as part of the error messages displayed by the interpreter when a NameError is raised to the top level. Contributed by Pablo Galindo in gh-98254.</li>
+            <p class="green-box"><code>&gt&gt&gt sys.version_info<br>
+            <code class="blue-code">Traceback (most recent call last):</code><br>
+            &nbsp File <code class="green-code">"&ltstdin&gt"</code>, line 1, in &ltmodule&gt<br>
+            <code class="red-code">NameError</code>: name 'sys' is not defined. Did you forget to import 'sys'?</code></p>
+            <li>Improve the error suggestion for NameError exceptions for instances. Now if a NameError is raised in a method and the instance has an attribute that’s exactly equal to the name in the exception, the suggestion will include <code>self.&ltNAME&gt</code> instead of the closest match in the method scope. Contributed by Pablo Galindo in gh-99139.</li>
+            <p class="green-box"><code>&gt&gt&gt <strong><code class="green-code">class</code> <code class="blue-code">A:</code></strong><br>
+            ... &nbsp&nbsp <strong><code class="green-code">def</code></strong> <code class="blue-code">__init__</code>(<code class="green-code">self</code>):<br>
+            ... &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <code class="green-code">self</code>.blech = 1<br>
+            ...<br>
+            ... &nbsp&nbsp <strong><code class="green-code">def</code></strong> <code class="blue-code">foo</code>(<code class="green-code">self</code>):<br>
+            ... &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp somethin = blech</code></p>
+            <p class="green-box"><code>&gt&gt&gt A().foo()<br>
+             &nbsp File <code class="green-code">"&ltstdin&gt"</code>, line 1<br>
+             &nbsp&nbsp&nbsp somethin = blech<br>
+             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp ^^^^^<br>
+             <code class="red-code">NameError</code>: name 'blech' is not defined. Did you mean: 'self.blech'?</code></p>
+            <li>Improve the SyntaxError error message when the user types <code>import x from y</code> instead of <code>from y import x</code>. Contributed by Pablo Galindo in gh-98931.</li>
+            <p class="green-box"><code>&gt&gt&gt <strong><code class="green-code">import</code> <code class="blue-code">a.y.z</code> <code class="green-code">from</code> <code class="blue-code">b.y.z</code></strong><br>
+            &nbsp File <code class="green-code">"&ltstdin&gt"</code>, line 1<br>
+            &nbsp&nbsp&nbsp <strong><code class="green-code">import</code> <code class="blue-code">a.y.z</code> <code class="green-code">from</code> <code class="blue-code">b.y.z</code></strong><br>
+            &nbsp&nbsp&nbsp ^^^^^^^^^^^^^^^^^^^^^^^<br>
+            <code class="red-code">SyntaxError</code>: Did you mean to use 'from ... import ...' instead?</code></p>
+            <li>ImportError exceptions raised from failed <code>from &ltmodule&gt import &ltname&gt</code> statements now include suggestions for the value of <code>&ltname&gt</code> based on the available names in <code>&ltmodule&gt</code>. Contributed by Pablo Galindo in gh-91058.</li>
+            <p class="green-box"><code>&gt&gt&gt <strong><code class="green-code">from</code> <code class="blue-code">collections</code> <code class="green-code">import</code></strong> chainmap<br>
+            <code class="blue-code">Traceback (most recent call last):</code><br>
+            &nbsp File "&ltstdin&gt", line 1, in &ltmodule&gt<br>
+            <code class="red-code">ImportError</code>: cannot import name 'chainmap' from 'collections'. Did you mean: 'ChainMap'?</code></p>
+          </ul>
+        </article>
+      </section>
+      <!-- New Features -->
+      <section id="New_Features" class="main-section">
+        <header>New Features</header>
+        <article>
+          <ul>
+            <li>Add Python support for the Linux perf profiler through the new environment variable <code>PYTHONPERFSUPPORT</code>, the new command-line option <code>-X perf</code>, as well as the new <code>sys.activate_stack_trampoline()</code>, <code>sys.deactivate_stack_trampoline()</code>, and <code>sys.is_stack_trampoline_active()</code> APIs. (Design by Pablo Galindo. Contributed by Pablo Galindo and Christian Heimes with contributions from Gregory P. Smith [Google] and Mark Shannon in gh-96123.)</li>
+          </ul>
+        </article>
+      </section>
+      <section id="Other_Language_Changes" class="main-section">
+        <header>Other Language Changes</header>
+        <article>
+          <ul>
+            <li><code>types.MappingProxyType</code> instances are now hashable if the underlying mapping is hashable. (Contributed by Serhiy Storchaka in gh-87995.)</li>
+            <li><code>memoryview</code> now supports the half-float type (the “e” format code). (Contributed by Dong-hee Na and Antoine Pitrou in gh-90751.)</li>
+            <li>The parser now raises <code>SyntaxError</code> when parsing source code containing null bytes. (Contributed by Pablo Galindo in gh-96670.)</li>
+            <li><code>ast.parse()</code> now raises <code>SyntaxError</code> instead of <code>ValueError</code> when parsing source code containing null bytes. (Contributed by Pablo Galindo in gh-96670.)</li>
+            <li>The Garbage Collector now runs only on the eval breaker mechanism of the Python bytecode evaluation loop instead of object allocations. The GC can also run when <code>PyErr_CheckSignals()</code> is called so C extensions that need to run for a long time without executing any Python code also have a chance to execute the GC periodically. (Contributed by Pablo Galindo in gh-97922.)</li>
+            <li>A backslash-character pair that is not a valid escape sequence now generates a <code>SyntaxWarning</code>, instead of <code>DeprecationWarning</code>. For example, <code>re.compile("\d+\.\d+")</code> now emits a <code>SyntaxWarning</code> (<code>"\d"</code> is an invalid escape sequence), use raw strings for regular expression: <code>re.compile(r"\d+\.\d+")</code>. In a future Python version, <code>SyntaxError</code> will eventually be raised, instead of <code>SyntaxWarning</code>. (Contributed by Victor Stinner in gh-98401.)</li>
+            <li>Octal escapes with value larger than <code>0o377</code> (ex: <code>"\477"</code>), deprecated in Python 3.11, now produce a <code>SyntaxWarning</code>, instead of <code>DeprecationWarning</code>. In a future Python version they will be eventually a <code>SyntaxError</code>. (Contributed by Victor Stinner in gh-98401.)</li>
+            <li>All builtin and extension callables expecting boolean parameters now accept arguments of any type instead of just bool and int. (Contributed by Serhiy Storchaka in gh-60203.)</li>
+            <li>Variables used in the target part of comprehensions that are not stored to can now be used in assignment expressions (<code>:=</code>). For example, in <code>[(b := 1) for a, b.prop in some_iter]</code>, the assignment to b is now allowed. Note that assigning to variables stored to in the target part of comprehensions (like a) is still disallowed, as per <strong>PEP 572</strong>. (Contributed by Nikita Sobolev in gh-100581.)</li>
+          </ul>
+        </article>
+      </section>
+      <section id="New_Modules" class="main-section">
+        <header>New Modules</header>
+        <article>
+          <ul>
+            <li>None yet.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
